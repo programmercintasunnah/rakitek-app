@@ -3,6 +3,30 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">{{ __('Fibonacci') }}</div>
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <label for="angka" class="col-md-2 col-form-label text-md-end">{{ __('Masukkan Angka') }}</label>
+
+                            <div class="col-md-2">
+                                <input id="angka" type="angka" class="form-control" name="angka" autocomplete="angka">
+                                <span id="error" style="color: red; font-style:italic"></span>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary" id="btnSubmit">
+                                    {{ __('Submit') }}
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Bilangan fibonacci :</h6>
+                                <span id="hasil"></span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Crud Products') }}</div>

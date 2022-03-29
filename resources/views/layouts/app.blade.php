@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Rakitek.com</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -158,6 +158,30 @@
                         console.log('Error:', data);
                     }
                 });
+            })
+            $('#btnSubmit').on('click',function(){
+                var angka = $('#angka').val();
+                if(angka){
+                    $('#error').remove();
+
+                    var first_number = 0;
+                    var second_number = 1;
+                    var size = angka;
+                    result = $("#result");
+                    var output = '0,1';
+                    for (i = 0; i < size - 2; i++) {
+                        var next_number = first_number + second_number;
+                        output = (output + (",") + next_number);
+                        first_number = second_number;
+                        second_number = next_number;
+                    }
+                    $("#hasil").html(output);
+
+                    console.log(angka)
+                }else{
+                    $('#error').html("Masukkan angka terlebih dahulu...")
+                    console.log('angka belum ada');
+                }
             })
         });
     </script>
