@@ -18,13 +18,17 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    {{-- jquery --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{-- {{ config('app.name', 'Laravel') }} --}}
+                    Rakitek App
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -79,5 +83,83 @@
             @yield('content')
         </main>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(e){
+            $('.btnEdit').on('click',function(){
+                $('#btnProduk').html('Ubah Data');
+                $("#btnProduk").css("backgroundColor","green");
+                var id = $(this).attr('data-id');
+                $('[name=id_produk]').val(id);
+                // $('#formProduk').attr('action', '{{ route('produk.update') }}');
+
+                $.ajax({
+                    url:"{{ url('products/editProduk') }}",
+                    type:'GET',
+                    data:{
+                        id:id
+                    },
+                    success: function(res){
+                        console.log(res.data);
+                        document.getElementById("nama_produk").value = res.data.nama_produk;
+                        $("#kategori_id option[value='"+res.data.kategori_id+"']").prop('selected',true);
+                        document.getElementById("harga").value = res.data.harga;
+                    }
+                })
+            })
+            $('.btnHapus').on('click',function(){
+                var id = $(this).attr('data-id');
+                confirm("Apakah yakin dihapus ?");
+ 
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ url('products/deleteProduk')}}"+'/'+id,
+                    data: { _token: '{{csrf_token()}}' },
+                    success: function (data) {
+                        $("#data_id_" + id).remove();
+                    },
+                    error: function (data) {
+                        console.log('Error:', data);
+                    }
+                });
+            })
+
+            //data kategori
+            $('.btnUbah').on('click',function(){
+                $('#btnKategori').html('Ubah Data');
+                $("#btnKategori").css("backgroundColor","green");
+                var id = $(this).attr('data-id');
+                $('[name=id_kategori]').val(id);
+                // $('#formKategori').attr('action', '{{ route('kategori.update') }}');
+
+                $.ajax({
+                    url:"{{ url('products/editKategori') }}",
+                    type:'GET',
+                    data:{
+                        id:id
+                    },
+                    success: function(res){
+                        console.log(res);
+                        document.getElementById("nama_kategori").value = res.data.nama_kategori;
+                    }
+                })
+            })
+            $('.btnDelete').on('click',function(){
+                var id = $(this).attr('data-id');
+                confirm("Apakah yakin dihapus ?");
+ 
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ url('products/deleteKategori')}}"+'/'+id,
+                    data: { _token: '{{csrf_token()}}' },
+                    success: function (data) {
+                        $("#id_k_" + id).remove();
+                    },
+                    error: function (data) {
+                        console.log('Error:', data);
+                    }
+                });
+            })
+        });
+    </script>
 </body>
 </html>
